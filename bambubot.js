@@ -13,7 +13,7 @@ client.login(process.env.BOTTOKEN);
 client.on('ready', readyDiscord);
 
 function readyDiscord(){
-    console.log(`${client.user.tag} Im online  🐼 💚 `);
+    console.log(`Im online  🐼 💚 `);
 }
 
 const replies = [
@@ -22,18 +22,24 @@ const replies = [
     'I am a bot, that only lives for Bambu! 🐼',
     'Soy bilingüe! 🤩',
     'Soy un panda, pero me gustan las 🍔 !',
-    'Hello you!',
-    'Quiero ser libre! 🐼'
+    'Hello!',
+    'Hi',
+    '👋',
+    'Quiero ser libre! 🐼',
+    '💚💚  🐼  💚💚 me encanta el bambu ¿lo sabias?',
+    '✌️',
+    '!bambu'
 ]
 
 client.on('message', gotMessage);
 
 async function gotMessage(msg){
+    if(msg.author.bot) return;
      if (msg.channel.id == (process.env.CHANNELIDTEST)){
-        let token = msg.content.split(" ");
+        let token = msg.content.split(/\s+/);
         if (token[0] === '!bambu') {
             const index = Math.floor(Math.random() * replies.length);
-            msg.channel.send(`${msg.author} ${replies[index]} `);
+            msg.channel.send(`${replies[index]}, ${msg.author}`);
         } else if (token[0] == '!gif') {
             let Keywords = 'panda';
             if (token.length > 1) {
@@ -41,14 +47,16 @@ async function gotMessage(msg){
                 // [!gif,cute,cat].slice
                 // [cute,cat].join
                 // cute" "cat
-                Keywords = token.slice(1,token.length).join (" ");
+                Keywords = token.slice(1,token.length).join(" ");
+                console.log(Keywords);
               
             }
             let url = `http://api.giphy.com/v1/gifs/search?q=${Keywords}&api_key=${process.env.GIPHYKEY}&rating=g`;
             let response = await fetch(url);
             let json = await response.json();
             const index = Math.floor(Math.random() * json.data.length);
-            msg.channel.send(`${msg.author} just look for ${Keywords} 🐼`);
+            msg.reply(`just look for ${Keywords} 🐼`);
+            // msg.channel.send(`${msg.author} just look for ${Keywords} 🐼`);
             msg.channel.send(json.data[index].url);
             msg.channel.send("Powered By GIPHY 😎 ");
         } 
