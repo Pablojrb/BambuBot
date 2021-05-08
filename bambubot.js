@@ -1,8 +1,8 @@
 console.log('Beep Beep! 🤖 🐼 💚 ');
 
-require ('dotenv').config();
+require('dotenv').config();
 
-const fetch = require ('node-fetch');
+const fetch = require('node-fetch');
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
@@ -12,7 +12,7 @@ client.login(process.env.BOTTOKEN);
 
 client.on('ready', readyDiscord);
 
-function readyDiscord(){
+function readyDiscord() {
     console.log(`Im online  🐼 💚 `);
 }
 
@@ -33,9 +33,9 @@ const replies = [
 
 client.on('message', gotMessage);
 
-async function gotMessage(msg){
-    if(msg.author.bot) return;
-     if (msg.channel.id == (process.env.CHANNELIDTEST)){
+async function gotMessage(msg) {
+    if (msg.author.bot) return;
+    if (msg.channel.id == (process.env.CHANNELIDTEST)) {
         let token = msg.content.split(/\s+/);
         if (token[0] === '!bambu') {
             const index = Math.floor(Math.random() * replies.length);
@@ -47,9 +47,9 @@ async function gotMessage(msg){
                 // [!gif,cute,cat].slice
                 // [cute,cat].join
                 // cute" "cat
-                Keywords = token.slice(1,token.length).join(" ");
+                Keywords = token.slice(1, token.length).join(" ");
                 console.log(Keywords);
-              
+
             }
             let url = `http://api.giphy.com/v1/gifs/search?q=${Keywords}&api_key=${process.env.GIPHYKEY}&rating=g`;
             let response = await fetch(url);
@@ -59,7 +59,7 @@ async function gotMessage(msg){
             // msg.channel.send(`${msg.author} just look for ${Keywords} 🐼`);
             msg.channel.send(json.data[index].url);
             msg.channel.send("Powered By GIPHY 😎 ");
-        } 
+        }
     }
 
 }
