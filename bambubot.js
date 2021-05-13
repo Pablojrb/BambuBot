@@ -28,7 +28,8 @@ const replies = [
     'Quiero ser libre! 🐼',
     '💚💚  🐼  💚💚 me encanta el bambu ¿lo sabias?',
     '✌️',
-    '!bambu'
+    'bambu!',
+    '🐼 hola'
 ]
 
 client.on('message', gotMessage);
