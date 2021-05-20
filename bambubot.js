@@ -49,14 +49,12 @@ async function gotMessage(msg) {
                 // [cute,cat].join
                 // cute" "cat
                 Keywords = token.slice(1, token.length).join(" ");
-                console.log(Keywords);
-
             }
             let url = `http://api.giphy.com/v1/gifs/search?q=${Keywords}&api_key=${process.env.GIPHYKEY}&rating=g`;
             let response = await fetch(url);
             let json = await response.json();
             const index = Math.floor(Math.random() * json.data.length);
-            msg.reply(`just look for ${Keywords} 🐼`);
+            msg.reply(`just look for "${Keywords}" GIFS - 🐼`);
             // msg.channel.send(`${msg.author} just look for ${Keywords} 🐼`);
             msg.channel.send(json.data[index].url);
             msg.channel.send("Powered By GIPHY 😎 ");
