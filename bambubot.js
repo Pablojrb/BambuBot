@@ -35,30 +35,41 @@ const replies = [
 client.on('message', gotMessage);
 
 async function gotMessage(msg) {
-    if (msg.author.bot) return;
-    if (msg.channel.id == (process.env.CHANNELIDTEST)) {
-        let token = msg.content.split(/\s+/);
-        if (token[0] === '!bambu') {
-            const index = Math.floor(Math.random() * replies.length);
-            msg.channel.send(`${replies[index]}, ${msg.author}`);
-        } else if (token[0] == '!gif') {
-            let Keywords = 'panda';
-            if (token.length > 1) {
-                // !gif cute cat
-                // [!gif,cute,cat].slice
-                // [cute,cat].join
-                // cute" "cat
-                Keywords = token.slice(1, token.length).join(" ");
-            }
-            let url = `http://api.giphy.com/v1/gifs/search?q=${Keywords}&api_key=${process.env.GIPHYKEY}&rating=g`;
-            let response = await fetch(url);
-            let json = await response.json();
-            const index = Math.floor(Math.random() * json.data.length);
-            msg.reply(`just look for "${Keywords}" GIFS - 🐼`);
-            // msg.channel.send(`${msg.author} just look for ${Keywords} 🐼`);
-            msg.channel.send(json.data[index].url);
-            msg.channel.send("Powered By GIPHY 😎 ");
+    try{
+        if (msg.author.bot) return;
+        if (msg.channel.id == (process.env.CHANNELIDTEST)) {
+            let token = msg.content.split(/\s+/);
+            if (token[0] === '!bambu') {
+                const index = Math.floor(Math.random() * replies.length);
+                msg.channel.send(`${replies[index]}, ${msg.author}`);
+            } else if (token[0] == '!gif') {
+                let Keywords = 'panda';
+                if (token.length > 1) {
+                    // !gif cute cat
+                    // [!gif,cute,cat].slice
+                    // [cute,cat].join
+                    // cute" "cat
+                    Keywords = token.slice(1, token.length).join(" ");
+                }
+                
+                let url = `http://api.giphy.com/v1/gifs/search?q=${Keywords}&api_key=${process.env.GIPHYKEY}&rating=g`;
+                let response = await fetch(url);
+                let json = await response.json();
+
+                const index = Math.floor(Math.random() * json.data.length);
+
+                msg.reply(`just look for "${Keywords}" GIFS - 🐼`);
+                msg.channel.send(json.data[index].url);
+                msg.channel.send("Powered By GIPHY 😎 ");
+                
+            } 
         }
+    } catch (err) {
+        msg.channel.send("try another keyword  🐼");
+        console.error(err);
+        
+        
     }
+      
 
 }
